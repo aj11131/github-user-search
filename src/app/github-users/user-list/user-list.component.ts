@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { combineLatest, map, Observable, tap } from 'rxjs';
-import { GithubUser } from '../types/github-user';
-import { GithubService } from '../services/github.service';
+import { GithubUser } from '../../types/github-user';
+import { GithubService } from '../../services/github.service';
 import { UserRowComponent } from '../user-row/user-row.component';
 import { AsyncPipe } from '@angular/common';
 

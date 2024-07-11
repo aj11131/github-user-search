@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, map, tap } from 'rxjs';
+import { BehaviorSubject, map, Observable, tap } from 'rxjs';
 import { GithubUser } from '../types/github-user';
 import { HttpClient } from '@angular/common/http';
 import { GithubUserSearchResponse } from '../types/github-user-search-response';
@@ -14,9 +14,9 @@ export class GithubService {
 
   constructor(private http: HttpClient) { }
 
-  getGithubUsers() {
+  getGithubUsers(): Observable<GithubUser[]> {
     return this.http
-      .get<GithubUserSearchResponse>('https://api.github.com/search/users')
+      .get<GithubUserSearchResponse>('https://api.github.com/search/users?q=example')
       .pipe(
         tap((response) => {
           this._totalResults$.next(response.total_count);

@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UserListComponent } from './user-list.component';
 import { By } from '@angular/platform-browser';
-import { GithubService } from '../services/github.service';
+import { GithubService } from '../../services/github.service';
 import { Observable, of } from 'rxjs';
 
 describe('UserListComponent', () => {

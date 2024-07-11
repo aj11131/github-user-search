@@ -1,0 +1,16 @@
+@if (data$ | async; as data) {
+
+    @if (data.users.length > 0) {
+
+        <div class="d-flex flex-wrap">
+            @for (user of data.users; track user.id) {
+                <app-user-row [user]="user"></app-user-row>
+            }
+        </div>
+
+    } @else {
+        <div id="test-no-results"></div>
+    } 
+
+}
+
