@@ -8,7 +8,9 @@
             }
         </div>
 
-        <ngb-pagination class="d-flex justify-content-center" [collectionSize]="data.totalResults" [maxSize]="10" [(page)]="page" (pageChange)="onPageChange($event)"/>
+        @if (data.totalResults >= 0) {
+            <ngb-pagination class="d-flex justify-content-center" [collectionSize]="data.totalResults" [maxSize]="10" [(page)]="page" (pageChange)="onPageChange($event)"/>
+        }
 
     } @else {
         <div id="test-no-results">
