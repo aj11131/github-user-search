@@ -1,8 +1,15 @@
 <nav class="navbar navbar-light bg-light">
     <div class="container-fluid">
       <div class="navbar-brand" href="#">Github User Search</div>
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+      <form  class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" [formControl]="searchControl">
+        <div class="d-flex align-items-center">
+            @if (totalResults$ | async; as totalResults) {
+                @if (totalResults >= 0) {
+                    <span class="badge rounded-pill bg-primary">{{totalResults}}</span>
+                }
+            }
+        </div>
       </form>
     </div>
 </nav>

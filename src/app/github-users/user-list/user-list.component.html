@@ -9,8 +9,16 @@
         </div>
 
     } @else {
-        <div id="test-no-results"></div>
+        <div id="test-no-results">
+            Please enter a search term. No results found.
+        </div>
     } 
 
+} @else {
+    <div class="text-center mt-4">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+    </div> 
 }
 

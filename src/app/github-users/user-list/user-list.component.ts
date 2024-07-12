@@ -20,7 +20,7 @@ export class UserListComponent implements OnInit {
   constructor(private githubService: GithubService) { }
 
   ngOnInit(): void {
-    this.data$ = combineLatest([this.githubService.getGithubUsers()])
+    this.data$ = combineLatest([this.githubService.githubUsers$])
       .pipe(
         map(([users]) => ({users})),
         tap(console.log)
