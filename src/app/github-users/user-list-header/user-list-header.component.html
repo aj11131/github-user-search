@@ -2,7 +2,7 @@
     <div class="container-fluid">
       <div class="navbar-brand" href="#">Github User Search</div>
       <form  class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" [formControl]="searchControl">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" (keydown.enter)="$event.preventDefault()" [formControl]="searchControl">
         <div class="d-flex align-items-center">
             @if (totalResults$ | async; as totalResults) {
                 @if (totalResults >= 0) {
