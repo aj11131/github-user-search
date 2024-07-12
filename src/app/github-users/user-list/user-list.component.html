@@ -9,7 +9,7 @@
         </div>
 
         @if (data.totalResults >= 0) {
-            <ngb-pagination class="d-flex justify-content-center" [collectionSize]="data.totalResults" [maxSize]="10" [pageSize]="data.pageSize" [(page)]="page" (pageChange)="onPageChange($event)"/>
+            <ngb-pagination class="d-flex justify-content-center" [collectionSize]="data.totalResults" [maxSize]="7" [pageSize]="data.pageSize" [(page)]="page" (pageChange)="onPageChange($event)"/>
         }
 
     } @else {
