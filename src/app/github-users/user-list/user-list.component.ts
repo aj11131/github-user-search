@@ -4,27 +4,33 @@ import { GithubUser } from '../../types/github-user';
 import { GithubService } from '../../services/github.service';
 import { UserRowComponent } from '../user-row/user-row.component';
 import { AsyncPipe } from '@angular/common';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-user-list',
   standalone: true,
-  imports: [UserRowComponent, AsyncPipe],
+  imports: [UserRowComponent, AsyncPipe, NgbPaginationModule],
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.scss'
 })
 export class UserListComponent implements OnInit {
   data$!: Observable<{
     users: GithubUser[];
+    totalResults: number;
   }>;
+
+  page: number = 1;
 
   constructor(private githubService: GithubService) { }
 
   ngOnInit(): void {
-    this.data$ = combineLatest([this.githubService.githubUsers$])
+    this.data$ = combineLatest([this.githubService.githubUsers$, this.githubService.totalResults$])
       .pipe(
-        map(([users]) => ({users})),
-        tap(console.log)
+        map(([users, totalResults]) => ({users, totalResults}))
       )
   }
 
+  onPageChange(page: number) {
+    this.githubService.setPageNumber(page);
+  }
 }
