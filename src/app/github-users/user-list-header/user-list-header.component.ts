@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, filter, tap } from 'rxjs';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { debounceTime, distinctUntilChanged, filter, map, tap } from 'rxjs';
 import { GithubService } from '../../services/github.service';
 import { AsyncPipe } from '@angular/common';
 
@@ -12,6 +12,8 @@ import { AsyncPipe } from '@angular/common';
   styleUrl: './user-list-header.component.scss'
 })
 export class UserListHeaderComponent implements OnInit {
+  maxSearchLength = 125;
+
   searchControl = new FormControl<string>("");
 
   totalResults$ = this.githubService.totalResults$;
@@ -22,6 +24,7 @@ export class UserListHeaderComponent implements OnInit {
     this.searchControl.valueChanges
       .pipe(
         filter((searchString) => searchString !== null),
+        map((searchString) => searchString?.trim()?.slice(0, this.maxSearchLength)),
         debounceTime(300),
         distinctUntilChanged(),
       )
