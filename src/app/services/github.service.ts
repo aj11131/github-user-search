@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, combineLatest, iif, map, Observable, shareReplay, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, combineLatest, filter, iif, map, Observable, of, shareReplay, Subject, switchMap, tap } from 'rxjs';
 import { GithubUser } from '../types/github-user';
 import { HttpClient } from '@angular/common/http';
 import { GithubUserSearchResponse } from '../types/github-user-search-response';
+import { GithubUserDetails } from '../types/github-user-details';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,13 @@ export class GithubService {
   private _pageNumber$ = new BehaviorSubject<number>(1);
   pageNumber$ = this._pageNumber$.asObservable();
 
+  // private _searchParameters$ = new BehaviorSubject<{
+  //   searchString: string;
+  //   pageNumber: number;
+  // }>({searchString: '', pageNumber: 1});
+  // searchParameters$ = this._searchParameters$.asObservable();
+
+
   private _totalResults$ = new BehaviorSubject<number>(0);
   totalResults$ = this._totalResults$.asObservable();
 
@@ -26,6 +34,14 @@ export class GithubService {
         this.getGithubUsers());}
     ),
     shareReplay(1)
+  );
+
+  private _selectedUserUsername$ = new BehaviorSubject<string>('');
+  selectedUser$: Observable<GithubUserDetails> = this._selectedUserUsername$.asObservable().pipe(
+    filter((username) => username.trim().length > 0),
+    switchMap((username) => {
+      return this.getGithubUser(username)
+    })
   );
 
   constructor(private http: HttpClient) { }
@@ -56,11 +72,29 @@ export class GithubService {
       );
   }
 
+  getGithubUser(username: string): Observable<GithubUserDetails> {
+    return this.http
+      .get<GithubUserDetails>(
+        `https://api.github.com/users/${username}`
+      );
+  }
+
+  // setSearchParameters(searchParameters: Partial<{searchString: string, pageNumber: number}>): void {
+  //   const currentValue = this._searchParameters$.getValue();
+  //   this._searchParameters$.next({...currentValue, ...searchParameters});
+  // }
+
   setSearchString(searchString: string): void {
+    this.setPageNumber(1);
     this._searchString$.next(searchString);
   }
 
   setPageNumber(pageNumber: number): void {
     this._pageNumber$.next(pageNumber);
+  }
+
+  setSelectedUser(username: string): void {
+    console.log('setSelectedUser', username )
+    this._selectedUserUsername$.next(username);
   }
 }

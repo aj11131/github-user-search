@@ -1,0 +1,48 @@
+<div class="offcanvas-header">
+    <h5 class="offcanvas-title">Offcanvas</h5>
+    <button
+        type="button"
+        class="btn-close text-reset"
+        aria-label="Close"
+        (click)="activeOffcanvas.dismiss('Cross click')"
+    ></button>
+</div>
+<div class="offcanvas-body">
+    @if (user$ | async; as user) {
+
+    <div class="text-center">
+        <div class="mb-2">
+            <img [src]="user.avatar_url" class="img-fluid" alt="...">
+        </div>
+
+        <h3>{{user.name}}</h3>
+        <h4 class="text-muted mb-4">{{user.login}}</h4>
+
+        <div class="mb-4">
+            <span class="me-2"><fa-icon [icon]="faUsers"></fa-icon></span>
+            <span class="me-2">{{user.followers}} Followers</span>&#183;
+            <span>{{user.following}} Following</span>
+        </div>
+
+        <div class="mb-4">
+            {{user.bio}}
+        </div>
+
+        <div class="mb-4">
+            <a [href]="user.html_url" class="card-link">Visit Github <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon></a>
+        </div>
+
+        @if (user.blog) {
+            <div class="mb-4">
+                <a [href]="user.blog" class="card-link">Visit Blog <fa-icon [icon]="faArrowUpRightFromSquare"></fa-icon></a>
+            </div>
+        }
+        
+    </div>
+
+    }
+    
+    <!-- <button type="button" class="btn btn-outline-secondary" (click)="activeOffcanvas.close('Close click')">
+        Close
+    </button> -->
+</div>

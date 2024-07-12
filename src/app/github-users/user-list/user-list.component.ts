@@ -17,6 +17,7 @@ export class UserListComponent implements OnInit {
   data$!: Observable<{
     users: GithubUser[];
     totalResults: number;
+    page: number;
   }>;
 
   page: number = 1;
@@ -24,9 +25,14 @@ export class UserListComponent implements OnInit {
   constructor(private githubService: GithubService) { }
 
   ngOnInit(): void {
-    this.data$ = combineLatest([this.githubService.githubUsers$, this.githubService.totalResults$])
+    this.data$ = combineLatest([
+      this.githubService.githubUsers$, 
+      this.githubService.totalResults$,
+      this.githubService.pageNumber$
+    ])
       .pipe(
-        map(([users, totalResults]) => ({users, totalResults}))
+        map(([users, totalResults, page]) => ({users, totalResults, page})),
+        tap(({page}) => this.page = page)
       )
   }
 
