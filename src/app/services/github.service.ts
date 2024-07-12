@@ -10,12 +10,6 @@ import { GithubUserDetails } from '../types/github-user-details';
 })
 export class GithubService {
 
-  // private _searchString$ = new BehaviorSubject<string>('');
-  // searchString$ = this._searchString$.asObservable();
-
-  // private _pageNumber$ = new BehaviorSubject<number>(1);
-  // pageNumber$ = this._pageNumber$.asObservable();
-
   private _searchParameters$ = new BehaviorSubject<{
     searchString: string;
     pageNumber: number;
@@ -83,16 +77,7 @@ export class GithubService {
     const currentValue = this._searchParameters$.getValue();
     this._searchParameters$.next({...currentValue, ...searchParameters});
   }
-
-  // setSearchString(searchString: string): void {
-  //   this.setPageNumber(1);
-  //   this._searchString$.next(searchString);
-  // }
-
-  // setPageNumber(pageNumber: number): void {
-  //   this._pageNumber$.next(pageNumber);
-  // }
-
+  
   setSelectedUser(username: string): void {
     console.log('setSelectedUser', username )
     this._selectedUserUsername$.next(username);
