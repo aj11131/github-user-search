@@ -81,7 +81,6 @@ export class GithubService {
   }
 
   setSelectedUser(username: string): void {
-    console.log('setSelectedUser', username )
     this._selectedUserUsername$.next(username);
   }
 }
