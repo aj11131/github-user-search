@@ -27,7 +27,7 @@ export class UserListHeaderComponent implements OnInit {
       )
       .subscribe((searchString) => {
         if (typeof searchString === 'string') {
-          this.githubService.setSearchString(searchString);
+          this.githubService.setSearchParameters({searchString, pageNumber: 1});
         }
       });
   }

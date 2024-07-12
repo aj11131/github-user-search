@@ -28,15 +28,15 @@ export class UserListComponent implements OnInit {
     this.data$ = combineLatest([
       this.githubService.githubUsers$, 
       this.githubService.totalResults$,
-      this.githubService.pageNumber$
+      this.githubService.searchParameters$
     ])
       .pipe(
-        map(([users, totalResults, page]) => ({users, totalResults, page})),
+        map(([users, totalResults, {pageNumber}]) => ({users, totalResults, page: pageNumber})),
         tap(({page}) => this.page = page)
       )
   }
 
   onPageChange(page: number) {
-    this.githubService.setPageNumber(page);
+    this.githubService.setSearchParameters({pageNumber: page});
   }
 }
