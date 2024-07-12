@@ -18,6 +18,7 @@ export class UserListComponent implements OnInit {
     users: GithubUser[];
     totalResults: number;
     page: number;
+    pageSize: number;
   }>;
 
   page: number = 1;
@@ -31,7 +32,7 @@ export class UserListComponent implements OnInit {
       this.githubService.searchParameters$
     ])
       .pipe(
-        map(([users, totalResults, {pageNumber}]) => ({users, totalResults, page: pageNumber})),
+        map(([users, totalResults, {pageNumber, pageSize}]) => ({users, totalResults, page: pageNumber, pageSize})),
         tap(({page}) => this.page = page)
       )
   }

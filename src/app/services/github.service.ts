@@ -13,7 +13,8 @@ export class GithubService {
   private _searchParameters$ = new BehaviorSubject<{
     searchString: string;
     pageNumber: number;
-  }>({searchString: '', pageNumber: 1});
+    pageSize: number;
+  }>({searchString: '', pageNumber: 1, pageSize: 30});
   searchParameters$ = this._searchParameters$.asObservable();
 
 
@@ -21,11 +22,11 @@ export class GithubService {
   totalResults$ = this._totalResults$.asObservable();
 
   githubUsers$ = combineLatest([this.searchParameters$]).pipe(
-    switchMap(([{pageNumber, searchString}]) => {
+    switchMap(([{pageNumber, searchString, pageSize}]) => {
       return iif(
         () => searchString?.trim()?.length > 0, 
-        this.searchGithubUsers(searchString, pageNumber), 
-        this.getGithubUsers());}
+        this.searchGithubUsers(searchString, pageNumber, pageSize), 
+        this.getGithubUsers(pageSize));}
     ),
     shareReplay(1)
   );
@@ -40,11 +41,11 @@ export class GithubService {
 
   constructor(private http: HttpClient) { }
 
-  searchGithubUsers(search: string, page: number): Observable<GithubUser[]> {
+  searchGithubUsers(search: string, page: number, pageSize: number): Observable<GithubUser[]> {
     return this.http
       .get<GithubUserSearchResponse>(
         'https://api.github.com/search/users',
-        {params: {q: search, page: page.toString()}}
+        {params: {q: search, page: page.toString(), per_page: pageSize.toString()}}
       )
       .pipe(
         tap((response) => {
@@ -54,10 +55,11 @@ export class GithubService {
       );
   }
 
-  getGithubUsers(): Observable<GithubUser[]> {
+  getGithubUsers(pageSize: number): Observable<GithubUser[]> {
     return this.http
       .get<GithubUser[]>(
-        'https://api.github.com/users'
+        'https://api.github.com/users',
+        {params: {per_page: pageSize.toString()}}
       )
       .pipe(
         tap((response) => {
@@ -77,7 +79,7 @@ export class GithubService {
     const currentValue = this._searchParameters$.getValue();
     this._searchParameters$.next({...currentValue, ...searchParameters});
   }
-  
+
   setSelectedUser(username: string): void {
     console.log('setSelectedUser', username )
     this._selectedUserUsername$.next(username);
