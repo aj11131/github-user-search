@@ -1,5 +1,5 @@
 # Demo
-https://github-user-search11131.netlify.app/github-users
+https://github-user-search11131.netlify.app
 
 # GithubUserSearch
 
